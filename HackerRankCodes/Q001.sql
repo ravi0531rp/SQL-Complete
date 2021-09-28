@@ -127,11 +127,131 @@ FROM OCCUPATIONS
 GROUP BY OCCUPATION
 ORDER BY COUNT(*),OCCUPATION;
 
+-- https://www.hackerrank.com/challenges/revising-aggregations-the-count-function/problem
+SELECT COUNT(*) AS CNT
+FROM CITY
+WHERE POPULATION > 100000;
 
+-- https://www.hackerrank.com/challenges/revising-aggregations-sum/problem
+SELECT SUM(POPULATION) AS POP
+FROM CITY
+WHERE DISTRICT = "California";
 
+-- https://www.hackerrank.com/challenges/revising-aggregations-the-average-function/problem
+SELECT AVG(POPULATION) AS POP
+FROM CITY
+WHERE DISTRICT = "California";
 
+-- https://www.hackerrank.com/challenges/average-population/problem
+SELECT ROUND(AVG(POPULATION)) AS POP
+FROM CITY;
 
+-- https://www.hackerrank.com/challenges/japan-population/problem
+SELECT SUM(POPULATION) AS POP
+FROM CITY
+WHERE COUNTRYCODE = 'JPN';
 
+-- https://www.hackerrank.com/challenges/draw-the-triangle-1/problem
+SET @NUMBER = 21;
+SELECT REPEAT('* ', @NUMBER := @NUMBER - 1) 
+FROM INFORMATION_SCHEMA.TABLES;
+
+-- https://www.hackerrank.com/challenges/draw-the-triangle-2/problem
+SET @COUNTER = 0;
+
+SELECT REPEAT('* ', @COUNTER := @COUNTER + 1)
+FROM INFORMATION_SCHEMA.TABLES
+WHERE @COUNTER < 20;
+
+-- https://www.hackerrank.com/challenges/population-density-difference/problem
+SELECT MAX(POPULATION) - MIN(POPULATION)
+FROM CITY;
+
+-- https://www.hackerrank.com/challenges/the-blunder/problem
+SELECT CEIL(AVG(SALARY) - AVG(REPLACE(SALARY,"0","")))
+FROM EMPLOYEES;
+
+-- https://www.hackerrank.com/challenges/earnings-of-employees/problem
+SELECT SALARY*MONTHS , COUNT(*) 
+FROM EMPLOYEE
+GROUP BY SALARY*MONTHS
+ORDER BY SALARY*MONTHS DESC
+LIMIT 1;
+
+-- https://www.hackerrank.com/challenges/weather-observation-station-2/problem
+SELECT ROUND(SUM(LAT_N),2) , ROUND(SUM(LONG_W),2)
+FROM STATION;
+
+-- https://www.hackerrank.com/challenges/weather-observation-station-13/problem
+SELECT TRUNCATE(SUM(LAT_N),4) AS LA
+FROM STATION
+WHERE LAT_N >38.7880 AND LAT_N < 137.2345;
+
+-- https://www.hackerrank.com/challenges/weather-observation-station-14/problem
+SELECT TRUNCATE(MAX(LAT_N),4) AS LA
+FROM STATION
+WHERE LAT_N < 137.2345;
+
+-- https://www.hackerrank.com/challenges/weather-observation-station-20/problem
+SET @ROWINDEX := -1; 
+SELECT ROUND(AVG(LAT_N),4)
+FROM
+(SELECT @ROWINDEX:=@ROWINDEX+1 AS ROWINDEX, LAT_N 
+FROM STATION
+ORDER BY LAT_N) AS L 
+WHERE L.ROWINDEX IN (FLOOR(@ROWINDEX/2), CEIL(@ROWINDEX/2));
+
+-- https://www.hackerrank.com/challenges/asian-population/problem
+SELECT SUM(CI.POPULATION)
+FROM CITY CI
+INNER JOIN
+COUNTRY CO
+ON CO.CODE = CI.COUNTRYCODE
+WHERE CO.CONTINENT = 'Asia';
+
+-- https://www.hackerrank.com/challenges/african-cities/problem
+SELECT CI.NAME
+FROM CITY CI
+INNER JOIN
+COUNTRY CO
+ON CO.CODE = CI.COUNTRYCODE
+WHERE CO.CONTINENT = 'Africa';
+
+-- https://www.hackerrank.com/challenges/average-population-of-each-continent/problem
+SELECT CO.CONTINENT , FLOOR(AVG(CI.POPULATION))
+FROM COUNTRY CO
+INNER JOIN
+CITY CI
+ON
+CI.COUNTRYCODE = CO.CODE
+GROUP BY CO.CONTINENT;
+
+-- https://www.hackerrank.com/challenges/the-report/problem
+SELECT IF(GRADE >= 8, NAME, NULL), GRADE, MARKS
+FROM STUDENTS JOIN GRADES
+WHERE MARKS BETWEEN MIN_MARK AND MAX_MARK
+ORDER BY GRADE DESC, NAME;
+
+-- https://www.hackerrank.com/challenges/full-score/problem
+SELECT HACKERS.HACKER_ID , HACKERS.NAME
+FROM SUBMISSIONS 
+INNER JOIN 
+CHALLENGES
+ON SUBMISSIONS.CHALLENGE_ID = CHALLENGES.CHALLENGE_ID
+INNER JOIN DIFFICULTY
+ON
+CHALLENGES.DIFFICULTY_LEVEL = DIFFICULTY.DIFFICULTY_LEVEL
+INNER JOIN 
+HACKERS
+ON
+HACKERS.HACKER_ID = SUBMISSIONS.HACKER_ID
+WHERE SUBMISSIONS.SCORE = DIFFICULTY.SCORE AND CHALLENGES.DIFFICULTY_LEVEL = DIFFICULTY.DIFFICULTY_LEVEL
+
+GROUP BY HACKERS.HACKER_ID , HACKERS.NAME
+HAVING COUNT(SUBMISSIONS.HACKER_ID) > 1
+ORDER BY COUNT(SUBMISSIONS.HACKER_ID) DESC , HACKERS.HACKER_ID;
+
+-- https://www.hackerrank.com/challenges/harry-potter-and-wands/problem
 
 
 
