@@ -1,0 +1,1 @@
+This folder contains SQL queries from InterviewBit Website!!
