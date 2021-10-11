@@ -55,3 +55,9 @@ on
 movies_cast.actor_id = actors.actor_id
 order by movies.movie_time
 limit 1;
+
+-- https://www.interviewbit.com/problems/actors-and-their-movies/
+select movie_title
+from movies where movie_id in
+(select movie_id from movies_cast where actor_id in
+(select actor_id from movies_cast group by actor_id having count(movie_id)>=2))
